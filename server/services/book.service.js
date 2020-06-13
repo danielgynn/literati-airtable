@@ -25,6 +25,7 @@ module.exports.getAllBooks = async (query) => {
     }));
 
     return {
-        data
+        data,
+        count: records.length
     };
 }
