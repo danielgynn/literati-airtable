@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Box, Header, Button, Flexbox, GridBox } from 'archetype-ui';
+import { Box, Header, Button, Flexbox, GridBox, TextLink } from 'archetype-ui';
 
 import { setDarkMode } from '../../actions/preferences';
 import { getData } from '../../utils/api';
@@ -31,7 +31,12 @@ class Home extends Component {
                 sortDirection: 'asc'
             });
 
+            const lists = await getData(API.lists.getAll);
+
+            console.log(lists);
+
             this.setState({
+                lists: lists.data,
                 books: books.data,
                 totalBooks: books.count,
                 loading: false
@@ -44,8 +49,8 @@ class Home extends Component {
     }
 
     render() {
-        const { books, loading } = this.state;
-        const { setDarkMode,  darkMode } = this.props;
+        const { books, loading, lists } = this.state;
+        const { setDarkMode,  darkMode, history } = this.props;
 
         return (
             <Box padding={1} className="App">
@@ -54,16 +59,25 @@ class Home extends Component {
                     <Button color='primary' onClick={() => setDarkMode(!darkMode)} text='Dark Mode'/>
                 </Flexbox>
                 {!loading && (
-                    <GridBox colWidth={[19,32,100]} rowGap={0} colGap={0}>
-                        {!!(books.length) && books.map((book, bookIndex) => (
-                            <Book
-                                key={bookIndex}
-                                showLabels={false}
-                                paletteType={!darkMode ? 'lightVibrant' : book.paletteType}
-                                {...formatBook(book)}
+                    <Box>
+                        {lists.map((list, listIndex) => (
+                            <TextLink
+                                key={listIndex}
+                                text={list.fields.Name}
+                                onClick={() => console.log(list)}
                             />
                         ))}
-                    </GridBox>
+                        <GridBox colWidth={[19,32,100]} rowGap={0} colGap={0}>
+                            {!!(books.length) && books.map((book, bookIndex) => (
+                                <Book
+                                    key={bookIndex}
+                                    showLabels={false}
+                                    paletteType={!darkMode ? 'lightVibrant' : book.paletteType}
+                                    {...formatBook(book)}
+                                />
+                            ))}
+                        </GridBox>
+                    </Box>
                 )}
                     
             </Box>

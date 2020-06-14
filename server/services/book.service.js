@@ -9,6 +9,12 @@ const defaultQuery = {
     sort: [{field: 'Title', direction: 'asc'}]
 };
 
+module.exports.getCurrentlyReading = async (query) => {
+    query.filterByFormula = `{Status} = 'Currently Reading'`;
+    
+    return this.getAllBooks(query);
+}
+
 module.exports.getAllBooks = async (query) => {
     let records = [];
 

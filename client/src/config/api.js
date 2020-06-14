@@ -4,5 +4,9 @@ export const API_ROOT = hostname === "development" ? "http://localhost:8080/api"
 export const API = {
     books: {
         getAll: `${API_ROOT}/books`
+    },
+    lists: {
+        getAll: `${API_ROOT}/lists`,
+        getById: `${API_ROOT}/lists/{listId}`
     }
 };
