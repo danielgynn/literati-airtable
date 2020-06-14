@@ -70,6 +70,22 @@ module.exports.getAllBooks = async (query) => {
     });
 }
 
+module.exports.getSingleBook = async (query) => {
+    const book = await books.find(query.id);
+
+    return {
+        ...book._rawJson,
+        id: book.id,
+        fields: {
+            ...book._rawJson.fields,
+            Author: [{
+                id: book._rawJson.fields.Author[0],
+                name: await authorService.getAuthorName(book._rawJson.fields.Author[0])
+            }]
+        }
+    };
+}
+
 module.exports.getBookTitle = async (bookId) => {
     const record = await books.find(bookId);
 
