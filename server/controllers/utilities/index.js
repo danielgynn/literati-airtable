@@ -1,8 +1,9 @@
 module.exports.getAll = (handler) => {
     return this.asyncRequest((req, res) => {
         const { query, pageParams } = req;
+
         return handler(query, pageParams);
-    })
+    });
 };
 
 module.exports.asyncRequest = (handler) => {

@@ -26,7 +26,10 @@ class Home extends Component {
 
     async getBooks() {
         try {
-            const books = await getData(API.books.getAll);
+            const books = await getData(API.books.getAll, {
+                sortField: 'Title',
+                sortDirection: 'asc'
+            });
 
             this.setState({
                 books: books.data,
@@ -52,10 +55,10 @@ class Home extends Component {
                 </Flexbox>
                 {!loading && (
                     <GridBox colWidth={[19,32,100]} rowGap={0} colGap={0}>
-                        {books.length && books.map((book, bookIndex) => (
+                        {!!(books.length) && books.map((book, bookIndex) => (
                             <Book
                                 key={bookIndex}
-                                showLabels
+                                showLabels={false}
                                 paletteType={!darkMode ? 'lightVibrant' : book.paletteType}
                                 {...formatBook(book)}
                             />

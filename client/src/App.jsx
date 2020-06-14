@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Provider } from "react-redux";
-import { ThemeContext } from "archetype-ui";
 
 import axios from "./config/axios";
 import configureStore from "./configureStore";
